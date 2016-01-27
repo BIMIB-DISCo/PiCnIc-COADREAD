@@ -1,6 +1,6 @@
 ##################################################################################
 #                                                                                #
-# TRONCO Examples -- CRC Case Study COADREAD                                     #
+# PiCnIc/TRONCO Examples -- CRC Case Study COADREAD                                     #
 #                                                                                #
 ##################################################################################
 # Copyright (c) 2015, Giulio Caravagna, Luca De Sano, Daniele Ramazzotti         #
@@ -15,7 +15,7 @@
 
 # You might install TRONCO's version from our Github as
 library(devtools)
-install_github("BIMIB-DISCo/TRONCO")
+install_github("BIMIB-DISCo/TRONCO", red = 'development')
 library(TRONCO)
 
 # Working directory
