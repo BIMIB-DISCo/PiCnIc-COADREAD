@@ -55,18 +55,6 @@ show(MSI.H)
 alteration.color = 'dimgray'
 pathways.color = c('firebrick1', 'darkblue', 'darkgreen', 'darkmagenta', 'darkorange')
 
-# Driver events - 33 genes mapped to 5 pathways by TCGA
-Wnt = c("APC", "CTNNB1", "DKK1", "DKK2", "DKK3", "DKK4", "LRP5", "FZD10", "FAM123B", "AXIN2", "TCF7L2", "FBXW7", "ARID1A", "SOX9")
-RAS = c("ERBB2", "ERBB3", "NRAS", "KRAS", "BRAF")
-PI3K = c("IGF2", "IRS2", "PIK3CA", "PIK3R1", "PTEN")
-TGFb = c("TGFBR1", "TGFBR2", "ACVR1B", "ACVR2A", "SMAD2", "SMAD3", "SMAD4")
-P53 = c("TP53", "ATM")
-
-# Some variable which will be processed by TRONCO plotting functions
-pathway.genes = c(Wnt, RAS, PI3K, TGFb, P53)
-pathway.names = c('Wnt', 'RAS', 'PI3K', 'TGFb', 'P53')
-pathway.list = list(Wnt = Wnt, RAS = RAS, PI3K = PI3K, TGFb = TGFb, P53 = P53)
-
 # MSS tumors  
 MSS = trim(events.selection(MSS, filter.in.names = pathway.genes))
 MSS = annotate.description(MSS, 'MSS subtype')

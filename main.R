@@ -1,6 +1,6 @@
 ##################################################################################
 #                                                                                #
-# PiCnIc/TRONCO Examples -- CRC Case Study COADREAD                                     #
+# PiCnIc/TRONCO Examples -- CRC Case Study COADREAD                              #
 #                                                                                #
 ##################################################################################
 # Copyright (c) 2015, Giulio Caravagna, Luca De Sano, Daniele Ramazzotti         #
@@ -15,10 +15,14 @@
 
 # You might install TRONCO's version from our Github as
 library(devtools)
-install_github("BIMIB-DISCo/TRONCO", red = 'development')
+install_github("BIMIB-DISCo/TRONCO", ref = 'development')
 library(TRONCO)
 
-# Working directory
+setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
+document()
+setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
+
+#Working directory
 workdir = "TCGA-data/"
 dir.create(workdir)
 
@@ -40,7 +44,7 @@ mutex.mss.file = paste0(workdir, "Mutex/mss_results.txt")
 
 # Then this files sources the other scripts
 source('scripts/TCGA-import.R', echo = T)
-source('scripts/training-samples.R', echo = T)
+source('scripts/1.subtyping.R', echo = T)
 source('scripts/training-exclusivity.R', echo = T)
 source('scripts/training-reconstruction.R', echo = T)
 source('scripts/validation-samples.R', echo = T)

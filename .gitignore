@@ -12,3 +12,12 @@ TCGA-data/Mutations/TCGA_CRC_Suppl_Table2_Mutations_20120719.csv
 TCGA-data/Mutex/msi_results.txt
 
 TCGA-data/Mutex/mss_results.txt
+.Rproj.user
+
+PiCnIc-COADREAD.Rproj
+
+.Rapp.history
+
+.DS_Store
+
+*.Rdata
