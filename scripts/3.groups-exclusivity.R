@@ -1,6 +1,6 @@
 ##################################################################################
 #                                                                                #
-# TRONCO Examples -- CRC Case Study COADREAD                                     #
+# PiCnIc/TRONCO Examples -- CRC Case Study COADREAD                              #
 #                                                                                #
 ##################################################################################
 # Copyright (c) 2015, Giulio Caravagna, Luca De Sano, Daniele Ramazzotti         #
@@ -11,7 +11,10 @@
 #                                                                                #
 ##################################################################################
 
-# Export a file MSS.txt compliant to MUTEX input
+
+# Export a file MSS.txt compliant to MUTEX input, which is one of the tools listed in
+# PiCnIc table in our manuscript. We provide in TRONCO a wrapper to transform a dataset
+# into the textual format compliant with MUTEX's specifications
 export.mutex(MSS, 
 	filename = 'MSS/mutex/MSS.txt', 
 	label.mutation = 'Mutation',  
@@ -25,6 +28,10 @@ export.mutex(MSI.H,
 	label.amplification = 'Amplification',
 	label.deletion = 'Deletion'
 	)
+
+# MUTEX is a java tool, which is supposed to be executed outside this R
+# environment. We refer to
+
 
 # MUTEX output already provided. If you prefer to run MUTEX on your pc you need to
 # execute it with default parameters and rename the output file as msi_result.txt
