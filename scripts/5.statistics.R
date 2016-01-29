@@ -11,35 +11,48 @@
 #                                                                                #
 ##################################################################################
 
-# Selected MSS tumors
-tcga.f.ag.MSS.select = select(tcga.f.ag.MSS, 
-	MIN.FREQ, 
-	unique(c(TCGA.MEMO, 
-		KNOWLEDGE.PRIOR.WNT, 
-		KNOWLEDGE.PRIOR.RAF, 
-		unlist(MSS.mutex)
-		)
-		))
-tcga.f.ag.MSS.select = annotate.description(tcga.f.ag.MSS.select, 'TCGA Validation MSS colorectal tumors')
 
-# Selected MSI tumors
-tcga.f.ag.MSI.select = select(tcga.f.ag.MSI, 
-	MIN.FREQ, 
-	unique(c(TCGA.MEMO, 
-		KNOWLEDGE.PRIOR.WNT, 
-		KNOWLEDGE.PRIOR.RAF, 
-		unlist(MSI.H.mutex)
-		)
-		))
-tcga.f.ag.MSI.select = annotate.description(tcga.f.ag.MSI.select, 'TCGA Validation MSI-HIGH colorectal tumors')
+##################################################################################
+# Post-reconstruction Non-parametric/Statistical Bootstrap Scores                #
+#   - non-parametric: we re-sample a dataset of equale size of the one used for  #
+#     model reconstruction, we re-run CAPRI, and then count how many times we    #
+#     re-infer the same edge as compared to how many times for each edge;        #
+#   - statistical: we hold original data fixed, and we re-run the statistical    #
+#     test for temporal priority and probability raising by initializing a       # 
+#     random number generator with different seeds.                              #
+# Results of these procedures are matrices which report the score for each pair  #
+# of edges in the model.                                                         #
+##################################################################################
+bootsrap.stat.conf = function(model, folder, ...)
+{
+  # This is set to 100 for our paper, here we set a much lower value as computation time
+  # might span over many hours with NUM.BOOT.ITER = 100
+  NUM.BOOT.ITER = 1
+  
+  # Example non-parametric and statistical bootstrap
+  model = tronco.bootstrap(model, nboot = 2)
+  model = tronco.bootstrap(model, type = "statistical", nboot = 2)
+  
+  # As takes long to bootstrap, we make a simple visualization first
+  tronco.plot(model, 
+              pathways = pathway.list, 
+              edge.cex = 1.5,          
+              legend.cex = .5,         
+              scale.nodes = .6,        
+              confidence = c('npb', 'sb'), # display bootstrap scores 
+              pathways.color = pathways.color,  
+              disconnected = F,        
+              height.logic = .3,       
+              file = paste0(folder, '/Rdata-models/model-bootstrap.pdf'), 
+              ... 
+              )
 
-# Consolidate data
-cd = consolidate.data( tcga.f.ag.MSS, T)
-cd = consolidate.data( tcga.f.ag.MSI, T)
+    return(model)
+}
 
-# Reconstructions
-tcga.f.ag.MSS.models = recon(x = tcga.f.ag.MSS.select, folder = 'VALIDATION', mutex = MSS.mutex)
-tcga.f.ag.MSI.models = recon(x = tcga.f.ag.MSI.select, folder = 'VALIDATION', mutex = MSS.mutex)
+MSS.models = bootsrap.stat.conf(MSS.models, folder = 'MSS',)
+
+
 
 # P-values for MSS training: temporal priority, probability raising and hypergeometric test
 as.selective.advantage.relations(MSS.models) # edges which contribute to MLE

@@ -42,34 +42,53 @@ clusters.file = paste0(workdir, "Clusters/TCGA-clusters.csv")
 mutex.msi.file = paste0(workdir, "Mutex/msi_results.txt") 
 mutex.mss.file = paste0(workdir, "Mutex/mss_results.txt") 
 
-######################################################
-# PiCnIc steps are separately implemented            #
-#                                                    #
-# 1 - Cohort subtyping                               #
-# 2 - Drivers selection                              #
-# 3 - Detection of groups of exclusive alterations   #
-# 4 - Models inference, confidence assessmnent       #
-######################################################
+###############################################################################
+# PiCnIc steps are separately implemented in the files in folder scripts      #
+#                                                                             #
+# 1 - Cohort subtyping                                                        #
+# 2 - Drivers selection                                                       #
+# 3 - Detection of groups of exclusive alterations                            #
+# 4 - Models inference, confidence assessmnent                                #
+###############################################################################
 
-## Steps: preamble
-## Prepare COADREAD data, this involved minor manual curation of
-## project data, which we did offline.
+###############################################################################
+## Steps: preamble                                                            #
+## Prepare COADREAD data, this involved minor manual curation of              #
+## project data, which we did offline.                                        #
+###############################################################################
 source('scripts/TCGA-import.R', echo = T)         
 
-## Steps: 1/2
-## Cohort subtyping (MSI-HIGH/MSS) and drivers selection are done together
-## as subtype status is provided by TCGA via clinical annotations
-## and the list of 33 driver genes is prepared by TCGA (manual curation and
-## MutSigCV execution)
+###############################################################################
+## Steps: 1/2                                                                 #
+## Cohort subtyping (MSI-HIGH/MSS) and drivers selection are done together    #
+## as subtype status is provided by TCGA via clinical annotations             #
+## and the list of 33 driver genes is prepared by TCGA (manual curation and   #
+## MutSigCV execution)                                                        #
+###############################################################################
 source('scripts/1-2.subtyping-drivers.R', echo = T)      
 
-## Steps: 3
-## 
+###############################################################################
+## Step: 3                                                                    #
+## Detection of groups of mutual exclusivity is done here. This is showing    #
+## how to exploit the interface between TRONCO and the MUTEX tool, as well    #
+## as how to include groups provided elsewhere (via prior knowledge and       #
+## via the MEMO tool -- run by TCGA)                                          #
+###############################################################################
 source('scripts/3.groups-exclusivity.R', echo = T)
 
-source('scripts/training-reconstruction.R', echo = T)
-source('scripts/validation-samples.R', echo = T)
-source('scripts/validation-pvalues.R', echo = T)
+###############################################################################
+## Step: 4                                                                    #
+## Finalize data processing, build CAPRI's hypotheses from exclusivity groups #
+## and run the algorithm                                                      #
+###############################################################################
+source('scripts/4.reconstruction.R', echo = T)
+
+###############################################################################
+## Step: 5                                                                    #
+## Assess the statistical confidence of each model. We use various measures   #
+###############################################################################
+source('scripts/5.statistics.R', echo = T)
+
 
 
 
