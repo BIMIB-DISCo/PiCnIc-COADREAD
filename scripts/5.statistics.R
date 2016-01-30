@@ -23,15 +23,15 @@
 # Results of these procedures are matrices which report the score for each pair  #
 # of edges in the model.                                                         #
 ##################################################################################
-bootsrap.stat.conf = function(model, folder, ...)
+bootstrap.stat.conf = function(model, folder, ...)
 {
   # This is set to 100 for our paper, here we set a much lower value as computation time
   # might span over many hours with NUM.BOOT.ITER = 100
   NUM.BOOT.ITER = 1
   
   # Example non-parametric and statistical bootstrap
-  model = tronco.bootstrap(model, nboot = 2)
-  model = tronco.bootstrap(model, type = "statistical", nboot = 2)
+  #model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
+  #model = tronco.bootstrap(model, type = "statistical", nboot = NUM.BOOT.ITER)
   
   # As takes long to bootstrap, we make a simple visualization first
   tronco.plot(model, 
@@ -47,11 +47,56 @@ bootsrap.stat.conf = function(model, folder, ...)
               ... 
               )
 
-    return(model)
+  # We also print to file the bootstrap scores
+  require(pheatmap)
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
+            main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
+            fontsize_row = 6,
+            fontsize_col = 6,
+            display_numbers = T,
+            number_format = "%d"
+    )
+  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-bic.pdf'))
+
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$aic) * 100, 
+            main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for AIC model'),
+            fontsize_row = 6,
+            fontsize_col = 6,
+            display_numbers = T,
+            number_format = "%d"
+    )
+  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-aic.pdf'))
+  
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$bic) * 100, 
+           main = paste(folder, 'COADREAD \n statistical bootstrap scores for BIC model'),
+           fontsize_row = 6,
+           fontsize_col = 6,
+           display_numbers = T,
+           number_format = "%d"
+  )
+  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-bic.pdf'))
+
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$aic) * 100, 
+           main = paste(folder, 'COADREAD \n statistical bootstrap scores for AIC model'),
+           fontsize_row = 6,
+           fontsize_col = 6,
+           display_numbers = T,
+           number_format = "%d"
+  )
+  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-aic.pdf'))
+  
+  return(model)
 }
 
-MSS.models = bootsrap.stat.conf(MSS.models, folder = 'MSS',)
+dev.new(noRStudioGD = T)
 
+MSS.models = bootstrap.stat.conf(MSS.models, folder = 'MSS')
+MSI.models = bootstrap.stat.conf(MSI.models, folder = 'MSI')
+
+
+#devtools::install_github("gaborcsardi/crayon")
+#library(crayon)
+#cat(red("Hello", "world!\n"))
 
 
 # P-values for MSS training: temporal priority, probability raising and hypergeometric test
