@@ -13,12 +13,14 @@
 
 # Please set TRONCO working directory to this file source location
 
-# You might install TRONCO's version from our Github as
+# You might install TRONCO's version from our Github as the lates version, which is
+# development, or master (stable)
 library(devtools)
 install_github("BIMIB-DISCo/TRONCO", ref = 'development')
 library(TRONCO)
 
 setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
+library(devtools)
 document()
 setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
 

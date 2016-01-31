@@ -229,3 +229,32 @@ recon = function(x, folder, mutex, ...) {
 # Work..
 MSS.models = recon(x = MSS.select, folder = 'MSS', mutex = MSS.mutex)
 MSI.models = recon(x = MSI.H.select, folder = 'MSI', mutex = MSI.H.mutex)
+
+# Now the view function displays also some other information about the models
+view(MSS.models)
+view(MSI.models)
+
+# We show the edges in each of these models through a TRONCO function which puts in a table each
+# selective advantage relation, and provides also the marginal frequencies of the upstream/downstream 
+# event. Also, p-values for the temporal priority, probability raising and hypergeometric testing
+# are reported. Two table are returned, one for each regularizer as each model has its own set of
+# edges.
+as.selective.advantage.relations(MSS.models)
+as.selective.advantage.relations(MSI.models)
+
+# CAPRI has an optimization strategy which selects among all edges which satisfy Suppes' conditions
+# only those which are considered best. If one is willing to see the full set of edges the above
+# function can be used with a type parameter.
+as.selective.advantage.relations(MSS.models, type = 'pf') # these edges are called 'prima facie' (pf)
+
+# Notice that one can also visualize these relations in a graphical way. Try for instance
+# tronco.plot(MSS.models, pf = TRUE)
+
+# This function has some options to query only a subset of the relations, for instance one might be 
+# interested in KRAS/PIK3CA ones
+# as.selective.advantage.relations(MSS.models, 
+#                                 events = as.events(MSS.models, genes = c('KRAS', 'PIK3CA')))
+#
+# Or those involving just Wnt genes
+# as.selective.advantage.relations(MSS.models, 
+#                                 events = as.events(MSS.models, genes = Wnt))

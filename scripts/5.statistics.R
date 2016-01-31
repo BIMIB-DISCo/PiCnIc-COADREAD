@@ -30,8 +30,8 @@ bootstrap.stat.conf = function(model, folder, ...)
   NUM.BOOT.ITER = 1
   
   # Example non-parametric and statistical bootstrap
-  #model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
-  #model = tronco.bootstrap(model, type = "statistical", nboot = NUM.BOOT.ITER)
+  model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
+  model = tronco.bootstrap(model, type = "statistical", nboot = NUM.BOOT.ITER)
   
   # As takes long to bootstrap, we make a simple visualization first
   tronco.plot(model, 
@@ -47,7 +47,7 @@ bootstrap.stat.conf = function(model, folder, ...)
               ... 
               )
 
-  # We also print to file the bootstrap scores
+  # We also print to file the bootstrap scores -- we use the pheatmap package
   require(pheatmap)
   pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
@@ -93,11 +93,52 @@ dev.new(noRStudioGD = T)
 MSS.models = bootstrap.stat.conf(MSS.models, folder = 'MSS')
 MSI.models = bootstrap.stat.conf(MSI.models, folder = 'MSI')
 
+# We print to screen a table with the bootstrap scores that we just computed.
+# This function has pretty much the same options of as.selective.advantage
+as.bootstrap.scores(MSS.models)
+as.bootstrap.scores(MSI.models)
+
+##################################################################################
+# k-fold Cross-validation                                                        #
+#   - eloss: entropy loss for each model computed from 10 repetitions of 10-fold #
+#     cross-validation;                                                          #
+##################################################################################
+mss.eloss.bic = tronco.kfold.eloss(MSS.models, 'bic')$value
+mss.eloss.aic = tronco.kfold.eloss(MSS.models, 'aic')$value
+msi.eloss.bic = tronco.kfold.eloss(MSI.models, 'bic')$value
+msi.eloss.aic = tronco.kfold.eloss(MSI.models, 'aic')$value
+
+# We make an example violin plot for MSS tumors
+library(vioplot)
+par(mfrow=c(1,2))
+vioplot(mss.eloss.bic, mss.eloss.aic, col = 'red', lty = 1, rectCol="gray",
+  colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
+title(main = 'Entropy loss \n MSS COADREAD tumors')
+vioplot(msi.eloss.bic, msi.eloss.aic, col = 'red', lty = 1, rectCol="gray",
+        colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
+title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
+
+
+x = c(1:5)
+y = x+4
+boxplot(list(x,y), main = 'ssss', notch = T)
+
+t=as.summary.statistics(MSS.models)$aic
+rownames(t) = apply(t, 1, function(x){ return(paste(x[1], "-->" , x[2])) })
+t$SELECTS = NULL
+t$SELECTED = NULL
+str(t)
+tableplot(t,
+          title="Statistics for COADREAD MSS tumors -- TRONCO/PiCnIc",
+          sortCol = 'NONPAR.BOOT', 
+          table.label = T,
+          nBins = nrow(t), 
+          sample = F
+          )
 
 #devtools::install_github("gaborcsardi/crayon")
 #library(crayon)
 #cat(red("Hello", "world!\n"))
-
 
 # P-values for MSS training: temporal priority, probability raising and hypergeometric test
 as.selective.advantage.relations(MSS.models) # edges which contribute to MLE
