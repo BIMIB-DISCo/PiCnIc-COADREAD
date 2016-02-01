@@ -102,26 +102,34 @@ as.bootstrap.scores(MSI.models)
 # k-fold Cross-validation                                                        #
 #   - eloss: entropy loss for each model computed from 10 repetitions of 10-fold #
 #     cross-validation;                                                          #
+#   - prederr: prediction error for each parent set X                            #
 ##################################################################################
-mss.eloss.bic = tronco.kfold.eloss(MSS.models, 'bic')$value
-mss.eloss.aic = tronco.kfold.eloss(MSS.models, 'aic')$value
-msi.eloss.bic = tronco.kfold.eloss(MSI.models, 'bic')$value
-msi.eloss.aic = tronco.kfold.eloss(MSI.models, 'aic')$value
+MSS.models = tronco.kfold.eloss(MSS.models)
+MSI.models = tronco.kfold.eloss(MSI.models)
 
-# We make an example violin plot for MSS tumors
+# One can query this statistics with this function
+as.kfold.eloss(MSS.models)
+
+# We make an example violin plot
 library(vioplot)
 par(mfrow=c(1,2))
-vioplot(mss.eloss.bic, mss.eloss.aic, col = 'red', lty = 1, rectCol="gray",
+vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSS COADREAD tumors')
-vioplot(msi.eloss.bic, msi.eloss.aic, col = 'red', lty = 1, rectCol="gray",
+vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
         colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
+par(mfrow=c(1,1))
+
+# Prediction error
+MSS.models = tronco.kfold.prederr(MSS.models)
 
 
-x = c(1:5)
-y = x+4
-boxplot(list(x,y), main = 'ssss', notch = T)
+
+
+
+
+
 
 t=as.summary.statistics(MSS.models)$aic
 rownames(t) = apply(t, 1, function(x){ return(paste(x[1], "-->" , x[2])) })
