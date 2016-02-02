@@ -27,7 +27,7 @@ bootstrap.stat.conf = function(model, folder, ...)
 {
   # This is set to 100 for our paper, here we set a much lower value as computation time
   # might span over many hours with NUM.BOOT.ITER = 100
-  NUM.BOOT.ITER = 1
+  NUM.BOOT.ITER = 10
   
   # Example non-parametric and statistical bootstrap
   model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
@@ -102,7 +102,6 @@ as.bootstrap.scores(MSI.models)
 # k-fold Cross-validation                                                        #
 #   - eloss: entropy loss for each model computed from 10 repetitions of 10-fold #
 #     cross-validation;                                                          #
-#   - prederr: prediction error for each parent set X                            #
 ##################################################################################
 MSS.models = tronco.kfold.eloss(MSS.models)
 MSI.models = tronco.kfold.eloss(MSI.models)
@@ -113,16 +112,20 @@ as.kfold.eloss(MSI.models)
 
 # We make an example violin plot
 library(vioplot)
-par(mfrow=c(1,2))
 vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSS COADREAD tumors')
+dev.copy2pdf(file = 'MSS/MSS-kfold-eloss.pdf')
+
 vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
         colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
-par(mfrow=c(1,1))
+dev.copy2pdf(file = 'MSI/MSI-kfold-eloss.pdf')
 
-# Prediction error is computed via another TRONCO function
+##################################################################################
+# k-fold Cross-validation                                                        #
+#   - prederr: prediction error for each parent set X                            #
+##################################################################################
 MSS.models = tronco.kfold.prederr(MSS.models)
 MSI.models = tronco.kfold.prederr(MSI.models)
 
@@ -130,48 +133,28 @@ MSI.models = tronco.kfold.prederr(MSI.models)
 as.kfold.prederr(MSS.models)
 as.kfold.prederr(MSI.models)
 
-
 as.selective.advantage.relations(MSS.models)$bic
 as.kfold.prederr(MSS.models)$bic
 
+##################################################################################
+# k-fold Cross-validation                                                        #
+#   - posterr: posterior classification error for each edge                      #
+##################################################################################
+MSS.models = tronco.kfold.posterr(MSS.models)
+MSI.models = tronco.kfold.posterr(MSI.models)
 
+# As above, we can query this statistics as well
+as.kfold.posterr(MSS.models)
+as.kfold.posterr(MSI.models)
 
-
-
-t=as.summary.statistics(MSS.models)$aic
-rownames(t) = apply(t, 1, function(x){ return(paste(x[1], "-->" , x[2])) })
-t$SELECTS = NULL
-t$SELECTED = NULL
-str(t)
-tableplot(t,
-          title="Statistics for COADREAD MSS tumors -- TRONCO/PiCnIc",
-          sortCol = 'NONPAR.BOOT', 
-          table.label = T,
-          nBins = nrow(t), 
-          sample = F
-          )
-
-#devtools::install_github("gaborcsardi/crayon")
-#library(crayon)
-#cat(red("Hello", "world!\n"))
-
-# P-values for MSS training: temporal priority, probability raising and hypergeometric test
-as.selective.advantage.relations(MSS.models) # edges which contribute to MLE
-as.selective.advantage.relations(MSS.models, type = 'pf') # all edges 
-
-# These should be matched to those for test. Matching depend on nodes' names, which depends for events in the node, or on
-# Discarded events which were not included by consolidation etc.
-# For this reason, syntactic match is not working unless for some simple cases, try: 
-#
-# merge(as.selective.advantage.relations(..), as.selective.advantage.relations(..), by = c('SELECTS', 'SELECTED'))
-#
-# In general, matching is hand-curated
-as.selective.advantage.relations(tcga.f.ag.MSS.models) # edges which contribute to MLE
-as.selective.advantage.relations(tcga.f.ag.MSS.models, type = 'pf') # all edges 
-
-
-# P-values for MSI-HIGH
-as.selective.advantage.relations(MSI.models) # edges which contribute to MLE
-as.selective.advantage.relations(MSI.models, type = 'pf') # all edges 
-as.selective.advantage.relations(tcga.f.ag.MSI.models) # edges which contribute to MLE
-as.selective.advantage.relations(tcga.f.ag.MSI.models, type = 'pf') # all edges 
+# For instance, one can visualize a table with all edge statistics by merging all
+# the table that we have produced with these functions
+Reduce(
+  function(...) merge(..., all = T), 
+  list(
+    as.selective.advantage.relations(MSS.models)$aic,
+    as.bootstrap.scores(MSS.models)$aic,
+    as.kfold.prederr(MSS.models)$aic,
+    as.kfold.posterr(MSS.models)$aic
+  )
+)

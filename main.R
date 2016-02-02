@@ -11,18 +11,20 @@
 #                                                                                #
 ##################################################################################
 
-# Please set TRONCO working directory to this file source location
-
 # You might install TRONCO's version from our Github as the lates version, which is
 # development, or master (stable)
 library(devtools)
 install_github("BIMIB-DISCo/TRONCO", ref = 'development')
 library(TRONCO)
 
-setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
-library(devtools)
-document()
-setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
+# Set SINK to FALSE to avoid creating a log file
+SINK = TRUE
+if(SINK) sink(paste0(getwd(), "/PiCnIc-COADREAD-logfile.txt"), append=FALSE, split=TRUE)
+
+#setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
+#library(devtools)
+#document()
+#setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
 
 #Working directory
 workdir = "TCGA-data/"
@@ -91,9 +93,6 @@ source('scripts/4.reconstruction.R', echo = T)
 ###############################################################################
 source('scripts/5.statistics.R', echo = T)
 
-
-
-
 tronco.plot(MSI.models, 
 	 pathways = pathway.list, 
 	 fontsize = 15,
@@ -119,7 +118,3 @@ tronco.plot(MSS.models,
 	disconnected = F, 
 	height.logic = .3,
 	file = paste0(workdir, '/mss.pdf'))
-
-
- write.csv(xxx, file=paste0(workdir, '/table'), quote=TRUE)
-
