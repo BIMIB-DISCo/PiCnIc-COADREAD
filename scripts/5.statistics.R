@@ -109,6 +109,7 @@ MSI.models = tronco.kfold.eloss(MSI.models)
 
 # One can query this statistics with this function
 as.kfold.eloss(MSS.models)
+as.kfold.eloss(MSI.models)
 
 # We make an example violin plot
 library(vioplot)
@@ -121,11 +122,17 @@ vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty
 title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
 par(mfrow=c(1,1))
 
-# Prediction error
+# Prediction error is computed via another TRONCO function
 MSS.models = tronco.kfold.prederr(MSS.models)
+MSI.models = tronco.kfold.prederr(MSI.models)
+
+# As above, we can query this statistics as well
+as.kfold.prederr(MSS.models)
+as.kfold.prederr(MSI.models)
 
 
-
+as.selective.advantage.relations(MSS.models)$bic
+as.kfold.prederr(MSS.models)$bic
 
 
 

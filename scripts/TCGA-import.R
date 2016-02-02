@@ -110,7 +110,7 @@ head(clinical.data)
 MAF = annotate.stages(MAF, clinical.data, match.TCGA.patients = TRUE)
 
 # This function gives a textual representation of a TRONCO object
-show(MAF)
+view(MAF)
 
 # Check for duplicated samples - we find them in this cohort
 TCGA.multiple.samples(MAF)
@@ -129,6 +129,32 @@ MAF = annotate.description(x = MAF, label = "COADREAD MAF data for driver genes"
 # general. Here we use it in its simples form, with many defaults -- later we will
 # show how to produce fancy plots
 oncoprint(MAF)
+
+# install.packages("devtools")
+# source("http://bioconductor.org/biocLite.R")
+# biocLite(c("AnnotationDbi", "biomaRt", "Biostrings", "GenomicFeatures", "GenomicRanges", "Rsamtools"))
+# install.packages(c("rmarkdown", "knitr"))
+# devtools::install_github("griffithlab/GenVisR")
+# library(GenVisR)
+# MAF.dataframe = MAF = import.MAF(file = MAF.file, is.TCGA = TRUE, sep = ';', to.TRONCO = FALSE,
+#                                  filter.fun = function(x){ return(x['Hugo_Symbol'] %in% pathway.genes) }) 
+# 
+# dev.new(noRStudioGD = TRUE)
+# 
+# MAF.dataframe = MAF.dataframe[which(MAF.dataframe$Variant_Classification != 'De_novo_Start_OutOfFrame'),] # Not supported mutation type
+# 
+# library(RColorBrewer)
+# mut.colors = brewer.pal('Dark2', n = 7)
+# names(mut.colors) = unique(MAF.dataframe$Variant_Classification)
+# 
+# waterfall(MAF.dataframe, mainGrid = T, mainDropMut = T, mainPalette = mut.colors)
+# 
+#   
+#   
+# library(reshape2)
+# 
+# names(MAF.dataframe)
+
 
 #################################################################################
 # COADREAD Copy Number Alterations - CNAs                                       #
@@ -149,7 +175,7 @@ as.types(GISTIC)
 # or equivalently with show/oncoprint functions. The oncoprint is particulalry interesting
 # as it shows that GISTIC data is much full of heterozygous losses and low-level gains
 # which we do not want to process 
-show(GISTIC)
+view(GISTIC)
 oncoprint(GISTIC)
 
 # We want to use only high-confidence scores in GISTIC, renamed as Amplification/Deletion
@@ -160,7 +186,7 @@ GISTIC = delete.type(GISTIC, 'Low-level Gain')    # low-level amplifications
 GISTIC = rename.type(GISTIC, 'Homozygous Loss', 'Deletion')    
 GISTIC = rename.type(GISTIC, 'High-level Gain', 'Amplification')    
 GISTIC = annotate.stages(GISTIC, clinical.data)
-show(GISTIC)
+view(GISTIC)
 
 # Shall be FALSE, as we know that these genes do not harbour CNAs
 c("PIK3CA", "FAM123B") %in% as.genes(GISTIC) 
@@ -177,13 +203,13 @@ as.samples(MAF) %in% as.samples(GISTIC)
 # intersect.genomes = FALSE. We do that as some genes such as c("PIK3CA", "FAM123B") do not appear
 # in both datasets.
 MAF.GISTIC = intersect.datasets(GISTIC, MAF, intersect.genomes = FALSE)
-show(MAF.GISTIC)
+view(MAF.GISTIC)
 
 # We remove events which have no observations in the dataset, and annotate stages
 MAF.GISTIC = trim(MAF.GISTIC)
 MAF.GISTIC = annotate.stages(MAF.GISTIC, clinical.data)
 MAF.GISTIC = annotate.description(x = MAF.GISTIC, label = "COADREAD MAF/CNA data for driver genes")
-show(MAF.GISTIC)
+view(MAF.GISTIC)
 
 # View and export these datasets as Rdata
 oncoprint(MAF.GISTIC)

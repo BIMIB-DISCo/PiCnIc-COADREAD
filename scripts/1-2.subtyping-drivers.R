@@ -64,8 +64,8 @@ MSI.H.samples = rownames(map.MSI.H)
 # 'TCGA-A6-3810' %in% as.samples(MAF)    # TRUE
 MSS = trim(samples.selection(MAF.GISTIC, MSS.samples))
 MSI.H = trim(samples.selection(MAF.GISTIC, MSI.H.samples))
-show(MSS)
-show(MSI.H)
+view(MSS)
+view(MSI.H)
 
 # MSS and MSI-HIGH subtypes
 MSS = annotate.description(MSS, 'COADREAD - MSS subtype')
