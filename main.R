@@ -13,7 +13,7 @@
 
 # You might install TRONCO's version from our Github as the lates version, which is
 # development, or master (stable)
-if(!require(devtools)) install.packages('devtools')
+if(!require(devtools)) install.packages('devtools', dependencies = T)
 install_github("BIMIB-DISCo/TRONCO", ref = 'development')
 library(TRONCO)
 

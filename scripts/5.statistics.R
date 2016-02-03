@@ -48,7 +48,7 @@ bootstrap.stat.conf = function(model, folder, ...)
               )
 
   # We also print to file the bootstrap scores -- we use the pheatmap package
-  if(!require(pheatmap)) install.packages('pheatmap')
+  if(!require(pheatmap)) install.packages('pheatmap', dependencies = T)
   pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
             fontsize_row = 6,
