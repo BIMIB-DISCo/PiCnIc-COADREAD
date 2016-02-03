@@ -220,7 +220,7 @@ recon = function(x, folder, mutex, ...) {
 		 pathways.color = pathways.color,  # color for each pathway
 		 disconnected = F,        # do not display nodes without incoming/outgoing edges
 		 height.logic = .3,       # scale logical connectives
-		 file = paste0(folder, '/Rdata-models/model.pdf'), # save to file
+		 #file = paste0(folder, '/Rdata-models/model.pdf'), # save to file
 		 ... )
 
 	return(model)

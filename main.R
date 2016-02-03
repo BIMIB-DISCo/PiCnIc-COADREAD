@@ -21,10 +21,10 @@ library(TRONCO)
 SINK = TRUE
 if(SINK) sink(paste0(getwd(), "/PiCnIc-COADREAD-logfile.txt"), append=FALSE, split=TRUE)
 
-#setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
-#library(devtools)
-#document()
-#setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
+setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
+library(devtools)
+document()
+setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
 
 #Working directory
 workdir = "TCGA-data/"
@@ -103,8 +103,9 @@ tronco.plot(MSI.models,
 	 pathways.color = pathways.color,
 	 label.edge.size = 9,
 	disconnected = F, 
-	height.logic = .3,
-	file = paste0(workdir, '/msi.pdf'))
+	height.logic = .3
+	)
+#	file = paste0(workdir, '/msi.pdf'))
 
 tronco.plot(MSS.models, 
 	 pathways = pathway.list, 
@@ -116,5 +117,5 @@ tronco.plot(MSS.models,
 	 pathways.color = pathways.color,
 	 label.edge.size = 9,
 	disconnected = F, 
-	height.logic = .3,
-	file = paste0(workdir, '/mss.pdf'))
+	height.logic = .3)
+#,	file = paste0(workdir, '/mss.pdf'))

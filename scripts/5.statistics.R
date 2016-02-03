@@ -56,7 +56,7 @@ bootstrap.stat.conf = function(model, folder, ...)
             display_numbers = T,
             number_format = "%d"
     )
-  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-bic.pdf'))
+  #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-bic.pdf'))
 
   pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$aic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for AIC model'),
@@ -65,7 +65,7 @@ bootstrap.stat.conf = function(model, folder, ...)
             display_numbers = T,
             number_format = "%d"
     )
-  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-aic.pdf'))
+  #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-aic.pdf'))
   
   pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$bic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for BIC model'),
@@ -74,7 +74,7 @@ bootstrap.stat.conf = function(model, folder, ...)
            display_numbers = T,
            number_format = "%d"
   )
-  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-bic.pdf'))
+  #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-bic.pdf'))
 
   pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$aic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for AIC model'),
@@ -83,7 +83,7 @@ bootstrap.stat.conf = function(model, folder, ...)
            display_numbers = T,
            number_format = "%d"
   )
-  dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-aic.pdf'))
+  #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-aic.pdf'))
   
   return(model)
 }
@@ -116,12 +116,12 @@ if(!require(vioplot)) install.packages('vioplot')
 vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSS COADREAD tumors')
-dev.copy2pdf(file = 'MSS/MSS-kfold-eloss.pdf')
+#dev.copy2pdf(file = 'MSS/MSS-kfold-eloss.pdf')
 
 vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
         colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
-dev.copy2pdf(file = 'MSI/MSI-kfold-eloss.pdf')
+#dev.copy2pdf(file = 'MSI/MSI-kfold-eloss.pdf')
 
 ##################################################################################
 # k-fold Cross-validation                                                        #
