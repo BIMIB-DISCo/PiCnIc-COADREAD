@@ -71,7 +71,6 @@ print(MSI.H.mutex)
 # which selects all events which are associated to a gene with name in
 # filter.in.names. This function has also other possible criteria to 
 # select events, and will be used later.
-if(!require(gridExtra)) install.packages('gridExtra', dependencies = T)
 grid.arrange(
 	oncoprint(
 		events.selection(MSI.H, filter.in.names = MSI.H.mutex[[1]]), # Select only events for genes in group 1

@@ -48,7 +48,6 @@ bootstrap.stat.conf = function(model, folder, ...)
               )
 
   # We also print to file the bootstrap scores -- we use the pheatmap package
-  if(!require(pheatmap)) install.packages('pheatmap', dependencies = T)
   pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
             fontsize_row = 6,
@@ -88,8 +87,6 @@ bootstrap.stat.conf = function(model, folder, ...)
   return(model)
 }
 
-dev.new(noRStudioGD = T)
-
 MSS.models = bootstrap.stat.conf(MSS.models, folder = 'MSS')
 MSI.models = bootstrap.stat.conf(MSI.models, folder = 'MSI')
 
@@ -111,8 +108,6 @@ as.kfold.eloss(MSS.models)
 as.kfold.eloss(MSI.models)
 
 # We make an example violin plot
-if(!require(vioplot)) install.packages('vioplot')
-
 vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSS COADREAD tumors')
