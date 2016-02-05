@@ -27,7 +27,7 @@ bootstrap.stat.conf = function(model, folder, ...)
 {
   # This is set to 100 for our paper, here we set a much lower value as computation time
   # might span over many hours with NUM.BOOT.ITER = 100
-  NUM.BOOT.ITER = 3
+  NUM.BOOT.ITER = 20
   
   # Example non-parametric and statistical bootstrap
   model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
