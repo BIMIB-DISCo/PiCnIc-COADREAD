@@ -43,7 +43,7 @@ bootstrap.stat.conf = function(model, folder, ...)
               pathways.color = pathways.color,  
               disconnected = F,        
               height.logic = .3,       
-              file = paste0(folder, '/Rdata-models/model-bootstrap.pdf'), 
+       #       file = paste0(folder, '/Rdata-models/model-bootstrap.pdf'), 
               ... 
               )
 
