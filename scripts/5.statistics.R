@@ -111,7 +111,10 @@ as.kfold.eloss(MSS.models)
 as.kfold.eloss(MSI.models)
 
 # We make an example violin plot
-if(!require(vioplot)) install.packages('vioplot')
+if(!require(vioplot)) {
+  install.packages('vioplot')
+}
+library('vioplot')
 
 vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
