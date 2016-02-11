@@ -178,10 +178,10 @@ sheet.mss.aic <- createSheet( wb = excel.wbook, sheetName="MSS-aic")
 sheet.msi.bic <- createSheet( wb = excel.wbook, sheetName="MSI-HIGH-bic")
 sheet.msi.aic <- createSheet( wb = excel.wbook, sheetName="MSI-HIGH-aic")
 
-addDataFrame(x = tabular(MSS.models, 'bic'), sheet = sheet.mss.bic, showNA = T, characterNA = 'NONE')
-addDataFrame(x = tabular(MSS.models, 'aic'), sheet = sheet.mss.aic, showNA = T)
-addDataFrame(x = tabular(MSI.models, 'bic'), sheet = sheet.msi.bic, showNA = T)
-addDataFrame(x = tabular(MSI.models, 'aic'), sheet = sheet.msi.aic, showNA = T)
+addDataFrame(x = tabular(MSS.models, 'bic'), sheet = sheet.mss.bic, showNA = T, characterNA = 'NA')
+addDataFrame(x = tabular(MSS.models, 'aic'), sheet = sheet.mss.aic, showNA = T, characterNA = 'NA')
+addDataFrame(x = tabular(MSI.models, 'bic'), sheet = sheet.msi.bic, showNA = T, characterNA = 'NA')
+addDataFrame(x = tabular(MSI.models, 'aic'), sheet = sheet.msi.aic, showNA = T, characterNA = 'NA')
 
 saveWorkbook(excel.wbook, excel.file)
 
