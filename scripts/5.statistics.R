@@ -107,6 +107,9 @@ MSI.models = tronco.kfold.eloss(MSI.models)
 as.kfold.eloss(MSS.models)
 as.kfold.eloss(MSI.models)
 
+# If you want also the values computed at each fold just use
+# as.kfold.eloss(MSS.models, values = T)
+
 # We make an example violin plot
 if(DOPLOTS) {
   vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
@@ -130,9 +133,6 @@ MSI.models = tronco.kfold.prederr(MSI.models)
 as.kfold.prederr(MSS.models)
 as.kfold.prederr(MSI.models)
 
-as.selective.advantage.relations(MSS.models)$bic
-as.kfold.prederr(MSS.models)$bic
-
 ##################################################################################
 # k-fold Cross-validation                                                        #
 #   - posterr: posterior classification error for each edge                      #
@@ -146,15 +146,45 @@ as.kfold.posterr(MSI.models)
 
 # For instance, one can visualize a table with all edge statistics by merging all
 # the table that we have produced with these functions
-Reduce(
-  function(...) merge(..., all = T), 
-  list(
-    as.selective.advantage.relations(MSS.models)$aic,
-    as.bootstrap.scores(MSS.models)$aic,
-    as.kfold.prederr(MSS.models)$aic,
-    as.kfold.posterr(MSS.models)$aic
+tabular = function(obj, M){
+  tab = Reduce(
+    function(...) merge(..., all = T), 
+      list(
+      as.selective.advantage.relations(obj)[[M]],
+      as.bootstrap.scores(obj)[[M]],
+      as.kfold.prederr(obj)[[M]],
+      as.kfold.posterr(obj)[[M]]
+    )
   )
-)
+  # merge reverses first with second column
+  tab = tab[, c(2,1,3:ncol(tab))]
+  tab = tab[order(tab$NONPAR.BOOT, na.last = TRUE, decreasing = TRUE), ]
+  
+  return(tab)
+}
 
+tabular(MSS.models, 'bic')
+tabular(MSS.models, 'aic')
+tabular(MSI.models, 'bic')
+tabular(MSI.models, 'bic')
+
+# We create an Excel file with these tables
+excel.file = "PicNiC-COADREAD.statistics.xlsx"
+
+excel.wbook = createWorkbook()
+
+sheet.mss.bic <- createSheet( wb = excel.wbook, sheetName="MSS-bic")
+sheet.mss.aic <- createSheet( wb = excel.wbook, sheetName="MSS-aic")
+sheet.msi.bic <- createSheet( wb = excel.wbook, sheetName="MSI-HIGH-bic")
+sheet.msi.aic <- createSheet( wb = excel.wbook, sheetName="MSI-HIGH-aic")
+
+addDataFrame(x = tabular(MSS.models, 'bic'), sheet = sheet.mss.bic, showNA = T, characterNA = 'NONE')
+addDataFrame(x = tabular(MSS.models, 'aic'), sheet = sheet.mss.aic, showNA = T)
+addDataFrame(x = tabular(MSI.models, 'bic'), sheet = sheet.msi.bic, showNA = T)
+addDataFrame(x = tabular(MSI.models, 'aic'), sheet = sheet.msi.aic, showNA = T)
+
+saveWorkbook(excel.wbook, excel.file)
+
+#### We conclude by saving two Rdata files
 save(MSS.models, file='MSS/Rdata-models/model.Rdata')
 save(MSI.models, file='MSI/Rdata-models/model.Rdata')

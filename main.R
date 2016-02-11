@@ -17,11 +17,13 @@ if(!require('devtools')) install.packages('devtools', dependencies = T, repos='h
 if(!require('pheatmap')) install.packages('pheatmap', dependencies = T, repos='http://cran.us.r-project.org')
 if(!require('gridExtra')) install.packages('gridExtra', dependencies = T, repos='http://cran.us.r-project.org')
 if(!require('vioplot')) install.packages('vioplot', dependencies = T, repos='http://cran.us.r-project.org')
+if(!require('xlsx')) install.packages('xlsx', dependencies = T, repos='http://cran.us.r-project.org') 
 
 library(devtools)
 library(pheatmap)
 library(gridExtra)
 library(vioplot)
+library(xlsx)
 
 # You might install TRONCO's version from our Github as the lates version, which is
 # development, or master (stable)
