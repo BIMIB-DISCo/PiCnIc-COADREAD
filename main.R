@@ -32,6 +32,8 @@ library(TRONCO)
 SINK = TRUE
 if(SINK) sink(paste0(getwd(), "/PiCnIc-COADREAD-logfile.txt"), append=FALSE, split=TRUE)
 
+DOPLOTS = FALSE
+
 # setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
 # library(devtools)
 # document()
@@ -104,7 +106,7 @@ source('scripts/4.reconstruction.R', echo = T)
 ###############################################################################
 source('scripts/5.statistics.R', echo = T)
 
-tronco.plot(MSI.models, 
+if(DOPLOTS) tronco.plot(MSI.models, 
 	 pathways = pathway.list, 
 	 fontsize = 15,
 	 edge.cex = 1.5,
@@ -118,7 +120,7 @@ tronco.plot(MSI.models,
 	)
 #	file = paste0(workdir, '/msi.pdf'))
 
-tronco.plot(MSS.models, 
+if(DOPLOTS) tronco.plot(MSS.models, 
 	 pathways = pathway.list, 
 	 fontsize = 15,
 	 edge.cex = 1.5,

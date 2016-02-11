@@ -29,12 +29,12 @@ bootstrap.stat.conf = function(model, folder, ...)
   # might span over many hours with NUM.BOOT.ITER = 100
   NUM.BOOT.ITER = 20
   
-  # Example non-parametric and statistical bootstrap
-  model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER)
-  model = tronco.bootstrap(model, type = "statistical", nboot = NUM.BOOT.ITER)
+  # Example non-parametric and statistical bootstrap -- set cores loading
+  model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER, cores.ratio = .5)
+  model = tronco.bootstrap(model, type = "statistical", nboot = NUM.BOOT.ITER,  cores.ratio = .5)
   
   # As takes long to bootstrap, we make a simple visualization first
-  tronco.plot(model, 
+  if(DOPLOTS) tronco.plot(model, 
               pathways = pathway.list, 
               edge.cex = 1.5,          
               legend.cex = .5,         
@@ -48,7 +48,7 @@ bootstrap.stat.conf = function(model, folder, ...)
               )
 
   # We also print to file the bootstrap scores -- we use the pheatmap package
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
+  if(DOPLOTS) pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
             fontsize_row = 6,
             fontsize_col = 6,
@@ -57,7 +57,7 @@ bootstrap.stat.conf = function(model, folder, ...)
     )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-bic.pdf'))
 
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$aic) * 100, 
+  if(DOPLOTS) pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$aic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for AIC model'),
             fontsize_row = 6,
             fontsize_col = 6,
@@ -66,7 +66,7 @@ bootstrap.stat.conf = function(model, folder, ...)
     )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-aic.pdf'))
   
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$bic) * 100, 
+  if(DOPLOTS) pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$bic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for BIC model'),
            fontsize_row = 6,
            fontsize_col = 6,
@@ -108,16 +108,17 @@ as.kfold.eloss(MSS.models)
 as.kfold.eloss(MSI.models)
 
 # We make an example violin plot
-vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
+if(DOPLOTS) {
+  vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
-title(main = 'Entropy loss \n MSS COADREAD tumors')
+  title(main = 'Entropy loss \n MSS COADREAD tumors')
 #dev.copy2pdf(file = 'MSS/MSS-kfold-eloss.pdf')
 
-vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
+  vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
         colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
-title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
+  title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
 #dev.copy2pdf(file = 'MSI/MSI-kfold-eloss.pdf')
-
+}
 ##################################################################################
 # k-fold Cross-validation                                                        #
 #   - prederr: prediction error for each parent set X                            #
@@ -136,7 +137,7 @@ as.kfold.prederr(MSS.models)$bic
 # k-fold Cross-validation                                                        #
 #   - posterr: posterior classification error for each edge                      #
 ##################################################################################
-MSS.models = tronco.kfold.posterr(MSS.models)
+MSS.models = tronco.kfold.posterr(MSS.models, verbose = T)
 MSI.models = tronco.kfold.posterr(MSI.models)
 
 # As above, we can query this statistics as well

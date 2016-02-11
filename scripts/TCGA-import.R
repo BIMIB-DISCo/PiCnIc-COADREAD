@@ -128,7 +128,7 @@ MAF = annotate.description(x = MAF, label = "COADREAD MAF data for driver genes"
 # function of TRONCO which plots the classical grid of mutations/CNAs or other events in
 # general. Here we use it in its simples form, with many defaults -- later we will
 # show how to produce fancy plots
-oncoprint(MAF)
+if(DOPLOTS) oncoprint(MAF)
 
 # install.packages("devtools")
 # source("http://bioconductor.org/biocLite.R")
@@ -176,7 +176,7 @@ as.types(GISTIC)
 # as it shows that GISTIC data is much full of heterozygous losses and low-level gains
 # which we do not want to process 
 view(GISTIC)
-oncoprint(GISTIC)
+if(DOPLOTS) oncoprint(GISTIC)
 
 # We want to use only high-confidence scores in GISTIC, renamed as Amplification/Deletion
 # and thus we use TRONCO's editing functions which allow to modify labels of alterations
@@ -212,7 +212,7 @@ MAF.GISTIC = annotate.description(x = MAF.GISTIC, label = "COADREAD MAF/CNA data
 view(MAF.GISTIC)
 
 # View and export these datasets as Rdata
-oncoprint(MAF.GISTIC)
+if(DOPLOTS) oncoprint(MAF.GISTIC)
 save(MAF.GISTIC, file = paste0(workdir, 'MAF.GISTIC.Rdata'))
 save(GISTIC, file = paste0(workdir, 'GISTIC.Rdata'))
 save(MAF, file = paste0(workdir, 'MAF.Rdata'))

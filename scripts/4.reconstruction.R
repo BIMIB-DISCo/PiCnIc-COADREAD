@@ -64,7 +64,7 @@ MSS.select = select(MSS,
 	)
 MSS.select = annotate.description(MSS.select, 'TCGA COADREAD\n MSS\n colorectal tumors')
 
-oncoprint(MSS.select, 
+if(DOPLOTS) oncoprint(MSS.select, 
           legend.cex = .5,			      		   # Legend size for events type
           cellwidth = 3,                     # Grid size
           cellheight = 10,
@@ -83,7 +83,7 @@ MSI.H.select = select(MSI.H,
 		))
 MSI.H.select = annotate.description(MSI.H.select, 'TCGA COADREAD \nMSI-HIGH \ncolorectal tumors')
 
-oncoprint(MSI.H.select, 
+if(DOPLOTS) oncoprint(MSI.H.select, 
           legend.cex = .5,			      		   # Legend size for events type
           cellwidth = 3,                     # Grid size
           cellheight = 10,
@@ -195,7 +195,7 @@ recon = function(x, folder, mutex, ...) {
 	
 	# Save to file the PDF of the lifted dataset, and its Rdata
 	lift  = annotate.description(lift, as.description(x))
-	oncoprint(lift, file = paste0(folder, '/Rdata-lifted/lifted.pdf'))		
+	if(DOPLOTS) oncoprint(lift, file = paste0(folder, '/Rdata-lifted/lifted.pdf'))		
 	save(lift, file=paste0(folder, '/Rdata-lifted/lifted.Rdata'))	
 	
 	# CAPRI execution with seed set, default parameters:
@@ -211,7 +211,7 @@ recon = function(x, folder, mutex, ...) {
 	# Plot the TRONCO model. TRONCO implements a visualization based on 
 	# standard graph libraries, and offers various options to manipulate 
 	# its basic plot. We here use some of them
-	tronco.plot(model, 
+	if(DOPLOTS) tronco.plot(model, 
 		 pathways = pathway.list, # every node has a border annotated with pathway colors
 		 edge.cex = 1.5,          # scale edge size
 	 	 legend.cex = .5,         # scale legend size
