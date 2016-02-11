@@ -27,7 +27,7 @@ bootstrap.stat.conf = function(model, folder, ...)
 {
   # This is set to 100 for our paper, here we set a much lower value as computation time
   # might span over many hours with NUM.BOOT.ITER = 100
-  NUM.BOOT.ITER = 20
+  NUM.BOOT.ITER = 100
   
   # Example non-parametric and statistical bootstrap -- set cores loading
   model = tronco.bootstrap(model, nboot = NUM.BOOT.ITER, cores.ratio = .5)
@@ -75,7 +75,7 @@ bootstrap.stat.conf = function(model, folder, ...)
   )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-bic.pdf'))
 
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$aic) * 100, 
+  if(DOPLOTS)  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$aic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for AIC model'),
            fontsize_row = 6,
            fontsize_col = 6,
