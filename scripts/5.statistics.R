@@ -155,3 +155,6 @@ Reduce(
     as.kfold.posterr(MSS.models)$aic
   )
 )
+
+save(MSS.models, file='MSS/Rdata-models/model.Rdata')
+save(MSI.models, file='MSI/Rdata-models/model.Rdata')
