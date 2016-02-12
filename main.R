@@ -36,11 +36,6 @@ if(SINK) sink(paste0(getwd(), "/PiCnIc-COADREAD-logfile.txt"), append=FALSE, spl
 
 DOPLOTS = FALSE
 
-# setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
-# library(devtools)
-# document()
-# setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
-
 #Working directory
 workdir = "TCGA-data/"
 dir.create(workdir)
