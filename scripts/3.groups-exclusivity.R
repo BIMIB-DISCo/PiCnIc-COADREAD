@@ -80,31 +80,34 @@ grid.arrange(
 				font.row = 6,
 				ann.hits = FALSE, # Avoid annotating the hits for these groups
 				cellheight = 10,
-				silent = T,       # Do not plot the oncoprint, just compute the GROB table
+				silent = TRUE,       # Do not plot the oncoprint, just compute the GROB table
 				gene.annot = pathway.list,
-				gene.annot.color = pathways.color
+				gene.annot.color = pathways.color,
+				gtable = TRUE
 	)$gtable,
 	oncoprint(
 		events.selection(MSI.H, filter.in.names = MSI.H.mutex[[2]]), 
 				title = paste("MSI-H - Mutex group 2"),
 				legend.cex = .3,
-				silent = T,
+				silent = TRUE,
 				font.row = 6,
 				ann.hits = FALSE,
 				cellheight = 10,
 				gene.annot = pathway.list,
-				gene.annot.color = pathways.color
+				gene.annot.color = pathways.color,
+				gtable = TRUE
 	)$gtable,
 	oncoprint(
 		events.selection(MSI.H, filter.in.names = MSI.H.mutex[[3]]), 
 				title = paste("MSI-H - Mutex group 3"),
 				legend.cex = .3,
-				silent = T,
+				silent = TRUE,
 				font.row = 6,
 				ann.hits = FALSE,
 				cellheight = 10,
 				gene.annot = pathway.list,
-				gene.annot.color = pathways.color
+				gene.annot.color = pathways.color,
+				gtable = TRUE
 	)$gtable, 
 	ncol=1 # Display all plots in a single column
 )
@@ -136,21 +139,24 @@ grid.arrange(
     title = paste("MSI-H - Wnt APC/CTNNB1 exclusivity (knowledge prior)"),
     legend.cex = .3, font.row = 6, ann.hits = FALSE, cellheight = 10,
     cellwidth = 3, silent = T, gene.annot = pathway.list,
-    gene.annot.color = pathways.color
+    gene.annot.color = pathways.color,
+    gtable = TRUE
   )$gtable,
   oncoprint(
     events.selection(MSI.H, filter.in.names = KNOWLEDGE.PRIOR.RAF), 
     title = paste("MSI-H - RAF KRAS/NRAS/BRAF exclusivity (knowledge prior)"),
     legend.cex = .3, font.row = 6, ann.hits = FALSE, cellheight = 10,
     cellwidth = 3, silent = T, gene.annot = pathway.list,
-    gene.annot.color = pathways.color
+    gene.annot.color = pathways.color,
+    gtable = TRUE
   )$gtable,
   oncoprint(
     events.selection(MSI.H, filter.in.names = TCGA.MEMO), 
     title = paste("MSI-H - MEMO group (computational prior)"),
     legend.cex = .3, font.row = 6, ann.hits = FALSE, cellheight = 10,
     cellwidth = 3, silent = T, gene.annot = pathway.list,
-    gene.annot.color = pathways.color
+    gene.annot.color = pathways.color,
+    gtable = TRUE
   )$gtable, 
   ncol=1 # Display all plots in a single column
 )

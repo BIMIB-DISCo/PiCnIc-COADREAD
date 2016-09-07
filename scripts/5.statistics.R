@@ -49,7 +49,7 @@ bootstrap.stat.conf = function(model, folder, ...)
 
   # We also print to file the bootstrap scores -- we use the pheatmap package
   if(!require(pheatmap)) install.packages('pheatmap', dependencies = T)
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$bic) * 100, 
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$capri_bic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for BIC model'),
             fontsize_row = 6,
             fontsize_col = 6,
@@ -58,7 +58,7 @@ bootstrap.stat.conf = function(model, folder, ...)
     )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-bic.pdf'))
 
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$aic) * 100, 
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'npb')$npb$capri_aic) * 100, 
             main = paste(folder, 'COADREAD \n non-parametric bootstrap scores for AIC model'),
             fontsize_row = 6,
             fontsize_col = 6,
@@ -67,7 +67,7 @@ bootstrap.stat.conf = function(model, folder, ...)
     )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-npb-bootstrap-aic.pdf'))
   
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$bic) * 100, 
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$capri_bic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for BIC model'),
            fontsize_row = 6,
            fontsize_col = 6,
@@ -76,7 +76,7 @@ bootstrap.stat.conf = function(model, folder, ...)
   )
   #dev.copy2pdf(file = paste0(folder, '/Rdata-models/scores-sb-bootstrap-bic.pdf'))
 
-  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$aic) * 100, 
+  pheatmap(keysToNames(model, as.confidence(model, conf = 'sb')$sb$capri_aic) * 100, 
            main = paste(folder, 'COADREAD \n statistical bootstrap scores for AIC model'),
            fontsize_row = 6,
            fontsize_col = 6,
@@ -116,12 +116,12 @@ if(!require(vioplot)) {
 }
 library('vioplot')
 
-vioplot(MSS.models$kfold$bic$eloss, MSS.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
+vioplot(MSS.models$kfold$capri_bic$eloss, MSS.models$kfold$capri_aic$eloss, col = 'red', lty = 1, rectCol="gray",
   colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSS COADREAD tumors')
 #dev.copy2pdf(file = 'MSS/MSS-kfold-eloss.pdf')
 
-vioplot(MSI.models$kfold$bic$eloss, MSI.models$kfold$aic$eloss, col = 'red', lty = 1, rectCol="gray",
+vioplot(MSI.models$kfold$capri_bic$eloss, MSI.models$kfold$capri_aic$eloss, col = 'red', lty = 1, rectCol="gray",
         colMed = 'black', names = c('BIC', 'AIC'), pchMed = 15, horizontal = T)
 title(main = 'Entropy loss \n MSI-HIGH COADREAD tumors')
 #dev.copy2pdf(file = 'MSI/MSI-kfold-eloss.pdf')
@@ -137,8 +137,8 @@ MSI.models = tronco.kfold.prederr(MSI.models)
 as.kfold.prederr(MSS.models)
 as.kfold.prederr(MSI.models)
 
-as.selective.advantage.relations(MSS.models)$bic
-as.kfold.prederr(MSS.models)$bic
+as.selective.advantage.relations(MSS.models)$capri_bic
+as.kfold.prederr(MSS.models)$capri_bic
 
 ##################################################################################
 # k-fold Cross-validation                                                        #
@@ -156,9 +156,9 @@ as.kfold.posterr(MSI.models)
 Reduce(
   function(...) merge(..., all = T), 
   list(
-    as.selective.advantage.relations(MSS.models)$aic,
-    as.bootstrap.scores(MSS.models)$aic,
-    as.kfold.prederr(MSS.models)$aic,
-    as.kfold.posterr(MSS.models)$aic
+    as.selective.advantage.relations(MSS.models)$capri_aic,
+    as.bootstrap.scores(MSS.models)$capri_aic,
+    as.kfold.prederr(MSS.models)$capri_aic,
+    as.kfold.posterr(MSS.models)$capri_aic
   )
 )
