@@ -11,9 +11,22 @@
 #                                                                                #
 ##################################################################################
 
+# This implemnetation of PiCnIc relies on TRONCO and a few other R packages for
+# data visualization -- we take care of installing them here
+if(!require('devtools')) install.packages('devtools', dependencies = T, repos='http://cran.us.r-project.org')
+if(!require('pheatmap')) install.packages('pheatmap', dependencies = T, repos='http://cran.us.r-project.org')
+if(!require('gridExtra')) install.packages('gridExtra', dependencies = T, repos='http://cran.us.r-project.org')
+if(!require('vioplot')) install.packages('vioplot', dependencies = T, repos='http://cran.us.r-project.org')
+if(!require('xlsx')) install.packages('xlsx', dependencies = T, repos='http://cran.us.r-project.org') 
+
+library(devtools)
+library(pheatmap)
+library(gridExtra)
+library(vioplot)
+library(xlsx)
+
 # You might install TRONCO's version from our Github as the lates version, which is
 # development, or master (stable)
-if(!require(devtools)) install.packages('devtools', dependencies = T)
 install_github("BIMIB-DISCo/TRONCO", ref = 'development')
 library(TRONCO)
 
@@ -21,10 +34,7 @@ library(TRONCO)
 SINK = TRUE
 if(SINK) sink(paste0(getwd(), "/PiCnIc-COADREAD-logfile.txt"), append=FALSE, split=TRUE)
 
-#setwd('/Volumes/DATA/Work/Software/Github/TRONCO')
-#library(devtools)
-#document()
-#setwd('/Volumes/DATA/Work/Software/Github/PiCnIc-COADREAD')
+DOPLOTS = FALSE
 
 #Working directory
 workdir = "TCGA-data/"
@@ -93,7 +103,7 @@ source('scripts/4.reconstruction.R', echo = T)
 ###############################################################################
 source('scripts/5.statistics.R', echo = T)
 
-tronco.plot(MSI.models, 
+if(DOPLOTS) tronco.plot(MSI.models, 
 	 pathways = pathway.list, 
 	 fontsize = 15,
 	 edge.cex = 1.5,
@@ -107,7 +117,7 @@ tronco.plot(MSI.models,
 	)
 #	file = paste0(workdir, '/msi.pdf'))
 
-tronco.plot(MSS.models, 
+if(DOPLOTS) tronco.plot(MSS.models, 
 	 pathways = pathway.list, 
 	 fontsize = 15,
 	 edge.cex = 1.5,

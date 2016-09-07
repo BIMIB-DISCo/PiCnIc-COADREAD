@@ -71,8 +71,7 @@ print(MSI.H.mutex)
 # which selects all events which are associated to a gene with name in
 # filter.in.names. This function has also other possible criteria to 
 # select events, and will be used later.
-if(!require(gridExtra)) install.packages('gridExtra', dependencies = T)
-grid.arrange(
+if(DOPLOTS) grid.arrange(
 	oncoprint(
 		events.selection(MSI.H, filter.in.names = MSI.H.mutex[[1]]), # Select only events for genes in group 1
 				title = paste("MSI-H - Mutex group 1"),
@@ -133,7 +132,7 @@ KNOWLEDGE.PRIOR.RAF = c('KRAS', 'NRAS', 'BRAF')
 # MEMO group estimated by TCGA  for the non-hypermutated tumors:
 TCGA.MEMO = c('ERBB2', 'IGF2', 'PIK3CA', 'PTEN')
 
-grid.arrange(
+if(DOPLOTS) grid.arrange(
   oncoprint(
     events.selection(MSI.H, filter.in.names = KNOWLEDGE.PRIOR.WNT),
     title = paste("MSI-H - Wnt APC/CTNNB1 exclusivity (knowledge prior)"),

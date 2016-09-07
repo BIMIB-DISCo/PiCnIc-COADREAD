@@ -23,7 +23,7 @@ load(paste0(workdir, '/MAF.GISTIC.Rdata'))
 MAF.GISTIC = change.color(MAF.GISTIC, 'Mutation', 'darkolivegreen3')
 MAF.GISTIC = change.color(MAF.GISTIC, 'Amplification', 'coral')
 MAF.GISTIC = change.color(MAF.GISTIC, 'Deletion', 'cornflowerblue')
-oncoprint(MAF.GISTIC)
+if(DOPLOTS) oncoprint(MAF.GISTIC)
 
 #################################################################################
 # Subytping.                                                                    #
@@ -76,7 +76,7 @@ MSI.H = annotate.description(MSI.H, 'COADREAD - MSI-HIGH subtype')
 alteration.color = 'dimgray'
 pathways.color = c('firebrick1', 'darkblue', 'darkgreen', 'darkmagenta', 'darkorange')
 
-oncoprint(MSS, 
+if(DOPLOTS) oncoprint(MSS, 
 	legend.cex = .5,			      		   # Legend size for events type
   cellwidth = 3,                     # Grid size
   cellheight = 10,
@@ -84,7 +84,7 @@ oncoprint(MSS,
 	gene.annot.color = pathways.color, # Mapping color
 	sample.id = T) 					   	    	 # Sample names
 
-oncoprint(MSI.H, 
+if(DOPLOTS) oncoprint(MSI.H, 
           legend.cex = .5,			      		   # Legend size for events type
           cellwidth = 3,                     # Grid size
           cellheight = 10,
