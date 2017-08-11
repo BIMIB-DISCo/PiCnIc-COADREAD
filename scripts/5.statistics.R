@@ -168,7 +168,11 @@ tabular(MSS.models, 'capri_aic')
 tabular(MSI.models, 'capri_bic')
 tabular(MSI.models, 'capri_bic')
 
-# We create an Excel file with these tables
+#### We conclude by saving two Rdata files
+save(MSS.models, file='MSS/Rdata-models/model.Rdata')
+save(MSI.models, file='MSI/Rdata-models/model.Rdata')
+
+# We finally create an Excel file with the above tables
 excel.file = "PicNiC-COADREAD.statistics.xlsx"
 
 excel.wbook = createWorkbook()
@@ -184,7 +188,3 @@ addDataFrame(x = tabular(MSI.models, 'capri_bic'), sheet = sheet.msi.bic, showNA
 addDataFrame(x = tabular(MSI.models, 'capri_aic'), sheet = sheet.msi.aic, showNA = T, characterNA = 'NA')
 
 saveWorkbook(excel.wbook, excel.file)
-
-#### We conclude by saving two Rdata files
-save(MSS.models, file='MSS/Rdata-models/model.Rdata')
-save(MSI.models, file='MSI/Rdata-models/model.Rdata')
