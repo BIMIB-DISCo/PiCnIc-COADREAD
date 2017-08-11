@@ -191,7 +191,7 @@ recon = function(x, folder, mutex, ...) {
 	# TRONCO also allows to automatically insert subformulas as explained in the
 	# example above -- XOR(KRAS:Mutation, KRAS:Deletion). If one wants that he
 	# can use this function. Here we add them in soft exclusivity via OR.
-	lift = hypothesis.add.homologous(lift, FUN = OR)
+	lift = hypothesis.add.homologous(lift)
 	
 	# Save to file the PDF of the lifted dataset, and its Rdata
 	lift  = annotate.description(lift, as.description(x))
