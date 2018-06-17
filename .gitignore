@@ -26,3 +26,6 @@ PiCnIc-COADREAD.Rproj
 
 *.pdf
 /PicNiC-COADREAD.statistics.xlsx
+
+.Rhistory
+
