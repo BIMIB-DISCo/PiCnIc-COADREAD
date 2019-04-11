@@ -48,7 +48,7 @@ library(vioplot)
 library(xlsx)
 
 
-### You might install TRONCO's version from our Github as the lates
+### You might install TRONCO's version from our Github as the latest
 ### version, which is development, or master (stable).
 
 install_github("BIMIB-DISCo/TRONCO", ref = 'development')
