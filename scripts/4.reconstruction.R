@@ -3,7 +3,7 @@
 ### TRONCO Examples -- CRC Case Study COADREAD
 ###
 ###########################################################################
-### Copyright (c) 2015, Giulio Caravagna, Luca De Sano, Daniele Ramazzotti
+### Copyright (c) 2015-2019, The TRONCO Team (www.troncopackage.org)
 ### email: tronco@disco.unimib.it
 ### All rights reserved. This program and the accompanying materials
 ### are made available under the terms of the GNU GPL v3.0

@@ -3,7 +3,7 @@
 ### TRONCO Examples -- CRC Case Study COADREAD
 ###
 ###########################################################################
-### Copyright (c) 2015-2018, The TRONCO Team (www.troncopackage.org)
+### Copyright (c) 2015-2019, The TRONCO Team (www.troncopackage.org)
 ### email: tronco@disco.unimib.it
 ### All rights reserved. This program and the accompanying materials
 ### are made available under the terms of the GNU GPL v3.0
@@ -30,7 +30,7 @@ bootstrap.stat.conf = function(model, folder, ...) {
     ## NUM.BOOT.ITER = 100
     
     ## print(">>>> Only 2 bootstraps iterations as an example; usually it should be 100.")
-    NUM.BOOT.ITER = 100
+    NUM.BOOT.ITER = 2
 
     
     ## Example non-parametric and statistical bootstrap -- set cores
